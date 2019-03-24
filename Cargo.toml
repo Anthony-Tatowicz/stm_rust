@@ -1,8 +1,8 @@
 [package]
-authors =  ["Anthony"] # "{{authors}}" -> "John Smith"
+authors =  ["Anthony"]
 edition = "2018"
 readme = "README.md"
-name = "app" # "{{project-name}}" -> "awesome-app"
+name = "app"
 version = "0.1.0"
 
 [dependencies]
@@ -17,14 +17,13 @@ panic-halt = "0.2.0"
 # Uncomment for the allocator example.
 # alloc-cortex-m = "0.3.5"
 
-# Uncomment for the device example.
-# [dependencies.stm32f30x]
-# features = ["rt"]
-# version = "0.7.1"
+[dependencies.stm32f30x]
+features = ["rt"]
+version = "0.8.0"
 
 # this lets you use `cargo fix`!
 [[bin]]
-name = "app" # "{{project-name}}" -> "awesome-app"
+name = "app"
 test = false
 bench = false
 
