@@ -1,0 +1,9 @@
+image: rust
+
+build:
+  stage: build
+  tags: 
+    - "rust"
+
+  script: 
+    - cargo build
