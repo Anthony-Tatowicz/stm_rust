@@ -4,6 +4,8 @@ build:
   stage: build
   tags: 
     - "rust"
-
+  
+  before-script:
+    - rustup target add thumbv7em-none-eabihf
   script: 
     - cargo build
