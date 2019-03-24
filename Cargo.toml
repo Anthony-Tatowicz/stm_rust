@@ -17,9 +17,9 @@ panic-halt = "0.2.0"
 # Uncomment for the allocator example.
 # alloc-cortex-m = "0.3.5"
 
-[dependencies.stm32f30x]
-features = ["rt"]
-version = "0.8.0"
+[dependencies.stm32f4]
+version = "0.6.0"
+features = ["stm32f412", "rt"]
 
 # this lets you use `cargo fix`!
 [[bin]]

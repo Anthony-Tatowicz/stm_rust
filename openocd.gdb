@@ -6,6 +6,10 @@ set print asm-demangle on
 # set backtrace limit to not have infinite backtrace loops
 set backtrace limit 32
 
+# set breakpoint limits
+set remote hardware-breakpoint-limit 6
+set remote hardware-watchpoint-limit 4
+
 # detect unhandled exceptions, hard faults and panics
 break DefaultHandler
 break HardFault
