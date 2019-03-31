@@ -1,9 +1,3 @@
-# `cortex-m-quickstart`
-
-> A template for building applications for ARM Cortex-M microcontrollers
-
-This project is developed and maintained by the [Cortex-M team][team].
-
 ## Dependencies
 
 To build embedded programs using this template you'll need:
