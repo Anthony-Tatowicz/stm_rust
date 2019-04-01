@@ -21,8 +21,8 @@ fn main() -> ! {
     // configure the system timer to wrap around every second
     syst.set_clock_source(SystClkSource::Core);
     syst.set_reload(8_000_000); // 1s
+    syst.clear_current();
     syst.enable_counter();
-
 
     loop {
         // busy wait until the timer wraps around
