@@ -8,6 +8,9 @@ use cortex_m::peripheral::syst::SystClkSource;
 use cortex_m_rt::{entry, exception, ExceptionFrame};
 use cortex_m_semihosting::{hprint, hprintln};
 use stm32f4::stm32f412::{interrupt, Interrupt, NVIC};
+use stm32f4xx_hal as hal;
+use stm32f4xx_hal::prelude::*;
+use stm32f4xx_hal::hal::digital::StatefulOutputPin;
 
 #[entry]
 fn main() -> ! {
@@ -24,36 +27,27 @@ fn main() -> ! {
     syst.clear_current();
     syst.enable_counter();
 
+    let perph = hal::stm32::Peripherals::take().unwrap();
+    let gpioe = perph.GPIOE.split();
 
-    let peripherals = stm32f4::stm32f412::Peripherals::take().unwrap();
-    let gpiog = &peripherals.GPIOE;
-    let rcc = &peripherals.RCC;
+    let mut pe0 = gpioe.pe0.into_push_pull_output();
+    let mut pe1 = gpioe.pe1.into_push_pull_output();
+    let mut pe2 = gpioe.pe2.into_push_pull_output();
 
-
-    rcc.ahb1enr.modify(|_, w| w.gpioeen().enabled());
-    gpiog.moder.modify(|_, w| w.moder0().output());
-    gpiog.otyper.modify(|_, w| w.ot0().clear_bit());
-    gpiog.bsrr.write(|w| w.bs0().clear_bit());
-
-    rcc.ahb1enr.modify(|_, w| w.gpioeen().enabled());
-    gpiog.moder.modify(|_, w| w.moder1().output());
-    gpiog.otyper.modify(|_, w| w.ot1().clear_bit());
-    gpiog.bsrr.write(|w| w.bs1().clear_bit());
-
-    rcc.ahb1enr.modify(|_, w| w.gpioeen().enabled());
-    gpiog.moder.modify(|_, w| w.moder2().output());
-    gpiog.otyper.modify(|_, w| w.ot2().clear_bit());
-    gpiog.bsrr.write(|w| w.bs2().clear_bit());
-
-    rcc.ahb1enr.modify(|_, w| w.gpioeen().enabled());
-    gpiog.moder.modify(|_, w| w.moder3().output());
-    gpiog.otyper.modify(|_, w| w.ot3().clear_bit());
-    gpiog.bsrr.write(|w| w.bs3().clear_bit());
+    pe0.set_low();
+    pe1.set_low();
+    pe2.set_low();
 
 
     loop {
         // busy wait until the timer wraps around
         while !syst.has_wrapped() {}
+
+        if pe0.is_set_low() {
+          pe0.set_high();
+        } else {
+          pe0.set_low();
+        }
 
         // trigger the `EXTI0` interrupt
         NVIC::pend(Interrupt::EXTI0);
