@@ -24,6 +24,33 @@ fn main() -> ! {
     syst.clear_current();
     syst.enable_counter();
 
+
+    let peripherals = stm32f4::stm32f412::Peripherals::take().unwrap();
+    let gpiog = &peripherals.GPIOE;
+    let rcc = &peripherals.RCC;
+
+
+    rcc.ahb1enr.modify(|_, w| w.gpioeen().enabled());
+    gpiog.moder.modify(|_, w| w.moder0().output());
+    gpiog.otyper.modify(|_, w| w.ot0().clear_bit());
+    gpiog.bsrr.write(|w| w.bs0().clear_bit());
+
+    rcc.ahb1enr.modify(|_, w| w.gpioeen().enabled());
+    gpiog.moder.modify(|_, w| w.moder1().output());
+    gpiog.otyper.modify(|_, w| w.ot1().clear_bit());
+    gpiog.bsrr.write(|w| w.bs1().clear_bit());
+
+    rcc.ahb1enr.modify(|_, w| w.gpioeen().enabled());
+    gpiog.moder.modify(|_, w| w.moder2().output());
+    gpiog.otyper.modify(|_, w| w.ot2().clear_bit());
+    gpiog.bsrr.write(|w| w.bs2().clear_bit());
+
+    rcc.ahb1enr.modify(|_, w| w.gpioeen().enabled());
+    gpiog.moder.modify(|_, w| w.moder3().output());
+    gpiog.otyper.modify(|_, w| w.ot3().clear_bit());
+    gpiog.bsrr.write(|w| w.bs3().clear_bit());
+
+
     loop {
         // busy wait until the timer wraps around
         while !syst.has_wrapped() {}
